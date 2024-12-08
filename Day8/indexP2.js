@@ -64,5 +64,5 @@ function processFileContent(data) {
         }
     }
     
-    console.log("P1: ", sum);
+    console.log("P2: ", sum);
 }
