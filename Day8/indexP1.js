@@ -26,27 +26,34 @@ function processFileContent(data) {
             }
         }
     }
-
+    console.table(stationCords);
     let antinodeMap = Array.from({ length: data.length }, () => Array(data[0].length).fill(false));
     for(let i = 0; i < stationCords.length; i++) {
         for(let j = 0; j < stationCords[i].length; j++) {
             for(let k = 0; k < stationCords[i].length; k++) {
-                if(stationCords[i][j][0] + (stationCords[i][j][0] - stationCords[i][k][0]) < antinodeMap.length && stationCords[i][j][0] + (stationCords[i][j][1] - stationCords[i][k][1]) < antinodeMap[0].length && stationCords[i][j][0] + (stationCords[i][j][0] - stationCords[i][k][0]) >= 0 && stationCords[i][j][0] + (stationCords[i][j][1] - stationCords[i][k][1]) >= 0){
-                    antinodeMap[stationCords[i][j][0] + (stationCords[i][j][0] - stationCords[i][k][0])][stationCords[i][j][1] + (stationCords[i][j][1] - stationCords[i][k][1])] = true;
-                }
-                if(stationCords[i][j][0] - (stationCords[i][j][0] - stationCords[i][k][0]) < antinodeMap.length && stationCords[i][j][0] - (stationCords[i][j][1] - stationCords[i][k][1]) < antinodeMap[0].length && stationCords[i][j][0] - (stationCords[i][j][0] - stationCords[i][k][0]) >= 0 && stationCords[i][j][0] - (stationCords[i][j][1] - stationCords[i][k][1]) >= 0){
-                    antinodeMap[stationCords[i][j][0] - (stationCords[i][j][0] - stationCords[i][k][0])][stationCords[i][j][1] - (stationCords[i][j][1] - stationCords[i][k][1])] = true;
+                if(j != k){
+                    difference = [stationCords[i][j][0] - stationCords[i][k][0],stationCords[i][j][1] - stationCords[i][k][1]];
+                    if(stationCords[i][j][0] + difference[0] < antinodeMap.length && stationCords[i][j][1] + difference[1] < antinodeMap[0].length && stationCords[i][j][0] + difference[0] >= 0 && stationCords[i][j][1] + difference[1] >= 0){
+                        antinodeMap[stationCords[i][j][0] + difference[0]][stationCords[i][j][1] + difference[1]] = true;
+                    }
+                    if(stationCords[i][k][0] - difference[0] < antinodeMap.length && stationCords[i][k][1] - difference[1] < antinodeMap[0].length && stationCords[i][k][0] - difference[0] >= 0 && stationCords[i][k][1] - difference[1] >= 0){
+                        antinodeMap[stationCords[i][k][0] - difference[0]][stationCords[i][k][1] - difference[1]] = true;
+                    }
                 }
             }
         }
     }
 
     sum = 0;
+    antiSum = 0;
 
     for(let i = 0; i < antinodeMap.length; i++) {
         for(let j = 0; j < antinodeMap[i].length; j++) {
             if(antinodeMap[i][j]){
                 sum++;
+            }
+            else{
+                antiSum++;
             }
         }
     }
